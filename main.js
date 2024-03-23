@@ -130,9 +130,9 @@ const popup = () => {
    let p = document.querySelector(".popup-winner p");
    let h1 = document.querySelector(".popup-winner h1");
    let actions = document.querySelector(".popup-winner .actions");
-   h1.className = winner
+   h1.className = winner;
    let imgElement = document.createElement("img");
-   imgElement.src = `./assets/icon-${winner}.svg`;
+   imgElement.src = `assets/icon-${winner}.svg`;
    if (player == winner) {
       p.innerHTML = "you won!";
       h1.innerHTML = "takes the round";
