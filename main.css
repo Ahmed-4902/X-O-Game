@@ -231,10 +231,10 @@ main .container .game-scene .game-board .box.active {
   background-position: 50%;
 }
 main .container .game-scene .game-board .box.active.x {
-  background-image: url(../assets/icon-x.svg);
+  background-image: url(/assets/icon-x.svg);
 }
 main .container .game-scene .game-board .box.active.o {
-  background-image: url(../assets/icon-o.svg);
+  background-image: url(/assets/icon-o.svg);
 }
 main .container .game-scene .game-board .box[data-turn=x].winner {
   box-shadow: inset 0px -4px 0px #118c87;
