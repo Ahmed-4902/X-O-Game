@@ -1,0 +1,449 @@
+@import "variables";
+@import "mixins";
+* {
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
+   font-family: "Outfit", sans-serif;
+}
+body {
+   background-color: $dark-navy;
+}
+
+main {
+   .container {
+      max-width: 508px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100vh;
+      @include flex-center;
+      .intro-scene {
+         width: 460px;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         .logo {
+            text-align: center;
+         }
+         .pick-mark {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            color: $silver;
+            background-color: $semi-dark-navy;
+            border-radius: 20px;
+            margin: 35px 0;
+            padding: 25px 0;
+            box-shadow: $box-shadow-cell;
+            p {
+               font-size: $medium;
+            }
+            .buttons {
+               background-color: $dark-navy;
+               width: 90%;
+               border-radius: 10px;
+               margin: 25px 0px 20px 5%;
+               display: flex;
+               padding: 10px;
+               cursor: pointer;
+               position: relative;
+               .button {
+                  width: 50%;
+                  border-radius: 12px;
+                  height: 54px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  transition: 0.3s ease;
+                  svg {
+                     z-index: 2;
+                     path {
+                        transition: 0.2s ease-in-out;
+                        transition-delay: 0.1s;
+                     }
+                  }
+                  &:hover {
+                     background-color: rgba(168, 191, 201, 0.05);
+                  }
+               }
+               &::after {
+                  content: "";
+                  position: absolute;
+                  background-color: $silver;
+                  width: calc(50% - 10px);
+                  height: calc(100% - 20px);
+                  border-radius: 10px;
+                  top: 10px;
+                  left: 10px;
+                  transition: 0.5s ease;
+                  z-index: 1;
+               }
+               &.o::after {
+                  transform: translateX(100%);
+               }
+            }
+            .buttons + p {
+               color: $silver;
+               opacity: 0.5;
+               font-size: $small;
+            }
+         }
+         .button-cpu {
+            @include button(
+               100%,
+               67px,
+               $light-yellow,
+               $light-yellow-hover,
+               $box-shadow-gold
+            );
+            margin-bottom: 25px;
+            &:active {
+               box-shadow: $box-shadow-gold-active;
+            }
+         }
+         .button-player {
+            @include button(
+               100%,
+               67px,
+               $light-blue,
+               $light-blue-hover,
+               $box-shadow-blue
+            );
+            &:active {
+               box-shadow: $box-shadow-blue-active;
+            }
+         }
+      }
+      .game-scene {
+         display: none;
+         flex: 1;
+         position: relative;
+         .game-header {
+            @include flex(space-between, center);
+            .logo img {
+               width: 80px;
+            }
+            .turn {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               background-color: $semi-dark-navy;
+               color: $silver;
+               padding-bottom: 5px;
+               border-radius: 8px;
+               box-shadow: $box-shadow-whos-turn;
+               width: 140px;
+               height: 51px;
+               img {
+                  width: 20px;
+                  margin-right: 9px;
+               }
+               p {
+                  font-weight: $bolder;
+                  font-size: $medium;
+                  letter-spacing: 1.5px;
+               }
+            }
+            .reload-game {
+               background-color: $silver;
+               width: 51px;
+               height: 51px;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               border-radius: 10px;
+               cursor: pointer;
+               box-shadow: $box-shadow-restart;
+               transition: 0.3s ease-out;
+               &:hover {
+                  background-color: $silver-hover;
+               }
+               img {
+                  width: 20px;
+               }
+            }
+         }
+         .game-board {
+            display: grid;
+            grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+            grid-gap: 20px;
+            gap: 20px;
+            margin: 20px 0px 19px;
+            height: 460px;
+            .box {
+               background-color: $semi-dark-navy;
+               border-radius: 15px;
+               @include flex-center;
+               box-shadow: $box-shadow-cell;
+               max-height: 140px;
+               transition: box-shadow 0.1s ease-out, transform 0.1s ease-out,
+                  max-height 0.1s ease-out;
+               &.empty {
+                  cursor: pointer;
+                  position: relative;
+                  overflow: hidden;
+               }
+               &.active {
+                  pointer-events: none;
+                  max-height: 136px;
+                  box-shadow: inset 0px -4px 0px #10212a;
+                  transform: translateY(4px);
+                  background-repeat: no-repeat;
+                  background-position: 50%;
+                  &.x {
+                     background-image: url(../assets/icon-x.svg);
+                  }
+                  &.o {
+                     background-image: url(../assets/icon-o.svg);
+                  }
+               }
+               &[data-turn="x"].winner {
+                  box-shadow: $box-shadow-blue-active;
+                  background: url(../assets/icon-x-dark-navy.svg) 50% no-repeat
+                     $light-blue;
+               }
+               &[data-turn="o"].winner {
+                  box-shadow: $box-shadow-gold-active;
+                  background: url(../assets/icon-o-dark-navy.svg) 50% no-repeat
+                     $light-yellow;
+               }
+               img {
+                  width: 70px;
+               }
+               &::after {
+                  content: "";
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 20px;
+                  background-color: transparent;
+                  background-position: center center;
+                  background-repeat: no-repeat;
+                  background-size: 30%;
+                  opacity: 0;
+                  transition: 0.2s ease-out;
+               }
+               &.preview-x::after {
+                  background-image: url(assets/icon-x-outline.svg);
+                  background-size: 64px;
+                  opacity: 1;
+               }
+               &.preview-o::after {
+                  background-image: url(assets/icon-o-outline.svg);
+                  background-size: 64px;
+                  opacity: 1;
+               }
+            }
+         }
+         .game-score {
+            @include flex(space-between, center);
+            gap: 20px;
+            div {
+               flex: 1;
+               border-radius: 15px;
+               height: 72px;
+               @include flex-center;
+               flex-direction: column;
+               letter-spacing: 1px;
+               text-transform: uppercase;
+               color: $dark-navy;
+               font-size: $small;
+               span {
+                  font-size: $very-large;
+                  font-weight: $bold;
+               }
+               &.ties {
+                  background-color: $silver;
+               }
+            }
+         }
+         .opponent-message {
+            position: absolute;
+            bottom: -45px;
+            left: 46%;
+            transform: translateX(-50%);
+            font-size: $medium;
+            color: $silver;
+            font-weight: $bolder;
+            letter-spacing: 1px;
+            @include flex-center;
+            display: none;
+            .dots {
+               bottom: 2.5px;
+               display: flex;
+               height: 6px;
+               gap: 5px;
+               position: absolute;
+               right: -22px;
+               bottom: 0px;
+               span {
+                  display: inline;
+                  background-color: $silver;
+                  @include circle(3px, 3px);
+                  &:nth-child(1) {
+                     animation: jumpingAnimation 1.2s 0.3s ease-in infinite;
+                  }
+                  &:nth-child(2) {
+                     animation: jumpingAnimation 1.2s 0.6s ease-in infinite;
+                  }
+                  &:nth-child(3) {
+                     animation: jumpingAnimation 1.2s 0.9s ease-in infinite;
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+
+.overlay {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.4);
+   z-index: 5;
+   display: none;
+}
+
+.popup-search {
+   @include popup;
+   display: none;
+   .dots {
+      display: flex;
+      height: 6px;
+      gap: 5px;
+      position: relative;
+      left: 368px;
+      bottom: 32px;
+      span {
+         display: inline;
+         background-color: $silver;
+         @include circle(3px, 3px);
+         &:nth-child(1) {
+            animation: jumpingAnimation 1.2s 0.3s ease-in infinite;
+         }
+         &:nth-child(2) {
+            animation: jumpingAnimation 1.2s 0.6s ease-in infinite;
+         }
+         &:nth-child(3) {
+            animation: jumpingAnimation 1.2s 0.9s ease-in infinite;
+         }
+      }
+   }
+   .cancel {
+      @include button(102px, 52px, $silver, $silver-hover, $box-shadow-silver);
+      border-radius: 10px;
+      padding-top: 14px;
+      font-size: $medium;
+   }
+}
+
+.popup-winner {
+   @include popup;
+   display: none;
+   h1 {
+      display: flex;
+      font-size: 40px;
+      margin-top: 15px;
+      justify-content: center;
+      align-items: center;
+      &.x {
+         color: $light-blue;
+      }
+      &.o {
+         color: $light-yellow;
+      }
+      img {
+         display: block;
+         margin-right: 20px;
+      }
+   }
+
+   .actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 20px;
+      .quit {
+         @include button(
+            auto,
+            52px,
+            $silver,
+            $silver-hover,
+            inset 0px -4px 0px #6b8997
+         );
+         font-size: $medium;
+         border-radius: 10px;
+         padding: 13px 16px 1px;
+      }
+      .next-round {
+         @include button(
+            auto,
+            52px,
+            $light-yellow,
+            $light-yellow-hover,
+            $box-shadow-gold-active
+         );
+         font-size: $medium;
+         border-radius: 10px;
+         padding: 13px 16px 1px;
+      }
+   }
+}
+
+.popup-restart {
+   @include popup;
+   display: none;
+   h1 {
+      font-size: 40px;
+   }
+   .actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 15px;
+      letter-spacing: 0.5px;
+      .cancel {
+         @include button(
+            auto,
+            52px,
+            $silver,
+            $silver-hover,
+            inset 0px -4px 0px #6b8997
+         );
+         font-size: $medium;
+         border-radius: 10px;
+         padding: 15px 16px 1px;
+      }
+      .restart {
+         @include button(
+            auto,
+            52px,
+            $light-yellow,
+            $light-yellow-hover,
+            $box-shadow-gold-active
+         );
+         font-size: $medium;
+         border-radius: 10px;
+         padding: 15px 16px 1px;
+      }
+   }
+}
+
+@keyframes jumpingAnimation {
+   0% {
+      transform: scale(1);
+   }
+   50% {
+      transform: scale(1.5);
+   }
+   100% {
+      transform: scale(1);
+   }
+}

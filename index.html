@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="main.css" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+         href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+         rel="stylesheet"
+      />
+      <!-- <link rel="icon" href="assets/icon/favicon-32x32.png" /> -->
+      <link rel="icon" href='assets/icon/favicon.ico' />
+      <title>X O Game</title>
+   </head>
+   <body>
+      <main>
+         <div class="overlay"></div>
+         <div class="container">
+            <div class="intro-scene">
+               <div class="logo">
+                  <img src="assets/logo.svg" alt="" />
+               </div>
+               <div class="pick-mark">
+                  <p>pick player 1's mark</p>
+                  <div class="buttons x">
+                     <div class="x-button button">
+                        <svg
+                           width="32"
+                           height="32"
+                           xmlns="http://www.w3.org/2000/svg"
+                           viewBox="0 0 64 64 "
+                        >
+                           <path
+                              d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z"
+                              fill="#1a2a33"
+                              fill-rule="evenodd"
+                           />
+                        </svg>
+                     </div>
+                     <div class="o-button button">
+                        <svg
+                           width="32"
+                           height="32"
+                           xmlns="http://www.w3.org/2000/svg"
+                           viewBox="0 0 64 64"
+                        >
+                           <path
+                              d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z"
+                              fill="#a8bfc9"
+                           />
+                        </svg>
+                     </div>
+                  </div>
+                  <p>remember: x goes first</p>
+               </div>
+               <div class="button button-cpu">new game (vs cpu)</div>
+               <div class="button button-player">new game (vs player)</div>
+            </div>
+            <div class="game-scene">
+               <div class="game-header">
+                  <div class="logo">
+                     <img src="assets/logo.svg" alt="" />
+                  </div>
+                  <div class="turn">
+                     <img src alt="" />
+                     <p>TURN</p>
+                  </div>
+                  <div class="reload-game">
+                     <img src="assets/icon-restart.svg" alt="" />
+                  </div>
+               </div>
+               <div class="game-board"></div>
+               <div class="game-score">
+                  <div class="player">X (YOU) <span>0</span></div>
+                  <div class="ties">TIES <span>0</span></div>
+                  <div class="cpu">O (CPU) <span>0</span></div>
+               </div>
+               <div class="opponent-message">
+                  <p>Your opponent is thinking</p>
+                  <div class="dots">
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="popup-search">
+            <div class="search-opponent">
+               <h1>searching for opponent</h1>
+               <div class="dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+               </div>
+            </div>
+            <div class="actions">
+               <div class="cancel button">cancel</div>
+            </div>
+         </div>
+         <div class="popup-winner">
+            <p>you won!</p>
+            <h1>takes the round</h1>
+            <div class="actions">
+               <div class="quit button">quit</div>
+               <div class="next-round button">next round</div>
+            </div>
+         </div>
+         <div class="popup-restart">
+            <h1>Restart Game</h1>
+            <div class="actions">
+               <div class="cancel button">no, cancel</div>
+               <div class="restart button">yes, restart</div>
+            </div>
+         </div>
+      </main>
+
+      <script src="main.js"></script>
+   </body>
+</html>

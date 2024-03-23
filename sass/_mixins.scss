@@ -1,0 +1,71 @@
+@mixin button($width, $height, $bg, $bg-hover, $shadow) {
+   width: $width;
+   height: $height;
+   display: block;
+   color: $dark-navy;
+   text-decoration: none;
+   text-align: center;
+   font-size: $large;
+   font-weight: $bolder;
+   padding: 18px 0;
+   border-radius: 15px;
+   letter-spacing: 1.25px;
+   text-transform: uppercase;
+   transition: 0.1s ease-out;
+   cursor: pointer;
+   background-color: $bg;
+   box-shadow: $shadow;
+   &:hover {
+      background-color: $bg-hover;
+   }
+   &:active {
+      transform: translateY(4px) scaleY(0.93);
+   }
+}
+
+@mixin flex-center {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+@mixin flex($justify-content, $align-items) {
+   display: flex;
+   justify-content: $justify-content;
+   align-items: $align-items;
+}
+
+@mixin circle($width, $height) {
+   width: $width;
+   height: $height;
+   border-radius: 50%;
+}
+
+@mixin popup {
+   position: absolute;
+   z-index: 109;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   background-color: $semi-dark-navy;
+   width: 100%;
+   height: 275px;
+   text-transform: uppercase;
+   font-weight: bold;
+   letter-spacing: 1.5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   p {
+      color: $silver;
+      font-weight: $bolder;
+      font-size: $medium;
+   }
+   h1 {
+      color: $silver;
+      margin-bottom: 20px;
+      font-size: $very-large;
+      font-weight: $bolder;
+   }
+}
