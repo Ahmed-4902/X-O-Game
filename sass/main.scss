@@ -360,27 +360,25 @@ main {
             }
          }
          .opponent-message {
-            position: absolute;
-            bottom: -45px;
-            left: 46%;
-            transform: translateX(-50%);
-            font-size: $medium;
-            color: $silver;
-            font-weight: $bolder;
-            letter-spacing: 1px;
+            width: 100%;
+            margin-top: 20px;
             @include flex-center;
-            display: none;
-            @media (max-width: 768px) {
-               font-size: $small;
+            opacity: 0;
+            // display: none;
+            p {
+               font-size: $medium;
+               color: $silver;
+               font-weight: $bolder;
+               letter-spacing: 1px;
+               margin-right: 3px;
+               @media (max-width: 768px) {
+                  font-size: $small;
+               }
             }
             .dots {
-               bottom: 2.5px;
+               margin-top: 5px;
                display: flex;
-               height: 6px;
                gap: 5px;
-               position: absolute;
-               right: -22px;
-               bottom: 0px;
                span {
                   display: inline;
                   background-color: $silver;

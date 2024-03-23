@@ -433,32 +433,29 @@ main .container .game-scene .game-score div.ties {
   }
 }
 main .container .game-scene .opponent-message {
-  position: absolute;
-  bottom: -45px;
-  left: 46%;
-  transform: translateX(-50%);
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+main .container .game-scene .opponent-message p {
   font-size: 16px;
   color: #a8bfc9;
   font-weight: 700;
   letter-spacing: 1px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: none;
+  margin-right: 3px;
 }
 @media (max-width: 768px) {
-  main .container .game-scene .opponent-message {
+  main .container .game-scene .opponent-message p {
     font-size: 14px;
   }
 }
 main .container .game-scene .opponent-message .dots {
-  bottom: 2.5px;
+  margin-top: 5px;
   display: flex;
-  height: 6px;
   gap: 5px;
-  position: absolute;
-  right: -22px;
-  bottom: 0px;
 }
 main .container .game-scene .opponent-message .dots span {
   display: inline;

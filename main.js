@@ -208,7 +208,7 @@ function playerMove() {
 }
 
 const computerMove = () => {
-   document.querySelector(".opponent-message").style.display = "flex";
+   document.querySelector(".opponent-message").style.opacity = 1;
    document.querySelector(".game-board").style.pointerEvents = "none";
    setTimeout(() => {
       let emptyCells = [];
@@ -224,7 +224,7 @@ const computerMove = () => {
       emptyCells[randomNumber].classList.add(turn);
       emptyCells[randomNumber].dataset.turn = turn;
       cells++;
-      document.querySelector(".opponent-message").style.display = "none";
+      document.querySelector(".opponent-message").style.opacity = 0;
       document.querySelector(".game-board").style.pointerEvents = "all";
       winnerFunction();
       switchMark();
