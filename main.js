@@ -192,8 +192,8 @@ const resetGame = () => {
 };
 
 function playerMove() {
-   this.classList.remove("empty");
-   this.classList.remove(`preview${turn}`);
+   this.removeAttribute("class")
+   this.classList.add("box");
    this.classList.add("active");
    this.classList.add(turn);
    this.dataset.turn = turn;
@@ -204,6 +204,7 @@ function playerMove() {
    if (winner == undefined) {
       computerMove();
    }
+   // this.classList.remove(`preview${turn}`);
 }
 
 const computerMove = () => {

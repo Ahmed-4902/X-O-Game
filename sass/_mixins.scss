@@ -52,7 +52,7 @@
    height: 275px;
    text-transform: uppercase;
    font-weight: bold;
-   letter-spacing: 1.5px;
+   letter-spacing: 2.5px;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -68,4 +68,27 @@
       font-size: $very-large;
       font-weight: $bolder;
    }
+   @media (max-width: 600px) {
+      height: 228px;
+      h1 {
+         font-size: $very-large !important;
+         letter-spacing: 1.5px;
+         font-weight: bolder;
+         color: $light-yellow;
+      }
+   }
+}
+
+@mixin button-in-popup {
+   cursor: pointer;
+   height: 52px;
+   padding: 12px 16px 1px;
+   border-radius: 10px;
+   font-size: $medium;
+   line-height: 20px;
+   letter-spacing: 1px;
+   font-weight: $bolder;
+   color: $dark-navy;
+   width: auto;
+   transition: 0.2s ease-out;
 }
