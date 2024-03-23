@@ -3,6 +3,8 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Outfit", sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -24,6 +26,11 @@ main .container .intro-scene {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+@media (max-width: 768px) {
+  main .container .intro-scene {
+    width: 360px;
+  }
 }
 main .container .intro-scene .logo {
   text-align: center;
@@ -207,6 +214,11 @@ main .container .game-scene .game-board {
   margin: 20px 0px 19px;
   height: 460px;
 }
+@media (max-width: 768px) {
+  main .container .game-scene .game-board {
+    height: 360px;
+  }
+}
 main .container .game-scene .game-board .box {
   background-color: #1f3641;
   border-radius: 15px;
@@ -309,6 +321,11 @@ main .container .game-scene .opponent-message {
   justify-content: center;
   align-items: center;
   display: none;
+}
+@media (max-width: 768px) {
+  main .container .game-scene .opponent-message {
+    font-size: 14px;
+  }
 }
 main .container .game-scene .opponent-message .dots {
   bottom: 2.5px;
@@ -427,6 +444,22 @@ main .container .game-scene .opponent-message .dots span:nth-child(3) {
 .popup-search .cancel:active {
   transform: translateY(4px) scaleY(0.93);
 }
+@media (max-width: 768px) {
+  .popup-search p {
+    font-size: 14px;
+  }
+  .popup-search h1 {
+    font-size: 20px;
+  }
+  .popup-search .dots {
+    left: 310px;
+    bottom: 32px;
+  }
+  .popup-search .button {
+    font-size: 14px !important;
+    height: 46px !important;
+  }
+}
 
 .popup-winner {
   position: absolute;
@@ -534,6 +567,15 @@ main .container .game-scene .opponent-message .dots span:nth-child(3) {
 }
 .popup-winner .actions .next-round:active {
   transform: translateY(4px) scaleY(0.93);
+}
+@media (max-width: 768px) {
+  .popup-winner h1 {
+    font-size: 30px;
+  }
+  .popup-winner h1 img {
+    margin-right: 10px;
+    width: 40px;
+  }
 }
 
 .popup-restart {

@@ -24,6 +24,9 @@ const createCells = () => {
       cellDiv.onmouseover = () => {
          cellDiv.classList.add(`preview-${turn}`);
       };
+      // cellDiv.ontouchstart = () => {
+      //    cellDiv.classList.add(`preview-${turn}`);
+      // };
       cellDiv.onmouseleave = () => {
          cellDiv.classList.remove(`preview-${turn}`);
       };
