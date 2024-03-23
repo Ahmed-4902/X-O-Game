@@ -229,7 +229,7 @@ const computerMove = () => {
       winnerFunction();
       switchMark();
       gameInit();
-   }, 1000);
+   }, 3000);
 };
 // TODO END FUNCTIONS WE CAN EDIT
 
