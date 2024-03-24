@@ -20,11 +20,19 @@ main {
       height: 100vh;
       @include flex-center;
       .intro-scene {
+         pointer-events: all;
+         opacity: 0;
          width: 460px;
          position: absolute;
          top: 50%;
          left: 50%;
          transform: translate(-50%, -50%);
+         transition: 0.3s ease-in-out;
+         will-change: opacity;
+         &.active {
+            pointer-events: all;
+            opacity: 1;
+         }
          @media (max-width: 768px) {
             width: 360px;
          }
@@ -151,9 +159,16 @@ main {
          }
       }
       .game-scene {
-         display: none;
+         pointer-events: none;
+         opacity: 0;
          flex: 1;
          position: relative;
+         transition: 0.3s ease-in-out;
+         will-change: opacity;
+         &.active {
+            pointer-events: all;
+            opacity: 1;
+         }
          .game-header {
             @include flex(space-between, center);
             .logo img {
@@ -226,6 +241,9 @@ main {
             @media (max-width: 520px) {
                height: 87.5vw;
                margin: 64px 0 20px;
+            }
+            &.disabled {
+               pointer-events: none;
             }
             .box {
                background-color: $semi-dark-navy;

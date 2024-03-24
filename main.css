@@ -21,11 +21,19 @@ main .container {
   align-items: center;
 }
 main .container .intro-scene {
+  pointer-events: all;
+  opacity: 0;
   width: 460px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transition: 0.3s ease-in-out;
+  will-change: opacity;
+}
+main .container .intro-scene.active {
+  pointer-events: all;
+  opacity: 1;
 }
 @media (max-width: 768px) {
   main .container .intro-scene {
@@ -194,9 +202,16 @@ main .container .intro-scene .button-player:active {
   }
 }
 main .container .game-scene {
-  display: none;
+  pointer-events: none;
+  opacity: 0;
   flex: 1;
   position: relative;
+  transition: 0.3s ease-in-out;
+  will-change: opacity;
+}
+main .container .game-scene.active {
+  pointer-events: all;
+  opacity: 1;
 }
 main .container .game-scene .game-header {
   display: flex;
@@ -285,6 +300,9 @@ main .container .game-scene .game-board {
     height: 87.5vw;
     margin: 64px 0 20px;
   }
+}
+main .container .game-scene .game-board.disabled {
+  pointer-events: none;
 }
 main .container .game-scene .game-board .box {
   background-color: #1f3641;

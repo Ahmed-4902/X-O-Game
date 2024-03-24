@@ -3,9 +3,7 @@ let log = console.log;
 let roundCount = 1;
 let turn = "x";
 let firstStep = "x";
-let player;
-let computer;
-let winner;
+let player, computer, winner;
 let cells = 0;
 let squ = [];
 let you = 0,
@@ -24,9 +22,9 @@ const createCells = () => {
       cellDiv.onmouseover = () => {
          cellDiv.classList.add(`preview-${turn}`);
       };
-      // cellDiv.ontouchstart = () => {
-      //    cellDiv.classList.add(`preview-${turn}`);
-      // };
+      cellDiv.ontouchstart = () => {
+         cellDiv.classList.add(`preview-${turn}`);
+      };
       cellDiv.onmouseleave = () => {
          cellDiv.classList.remove(`preview-${turn}`);
       };
@@ -93,7 +91,6 @@ const winnerFunction = () => {
       ties++;
       gameInit();
       modalWinner();
-      window.stop();
    }
 };
 
@@ -111,10 +108,8 @@ const finish = (num1, num2, num3) => {
       document.querySelector(".cpu span").innerHTML = cpu;
    }
    modalWinner();
-   window.stop();
 };
 
-// TODO START FUNCTIONS WE CAN EDIT
 const gameInit = () => {
    let resultPlayer = document.querySelector(".game-score .player");
    let resultCpu = document.querySelector(".game-score .cpu");
@@ -170,7 +165,7 @@ function playerMove() {
 
 const computerMove = () => {
    document.querySelector(".opponent-message").style.opacity = 1;
-   document.querySelector(".game-board").style.pointerEvents = "none";
+   document.querySelector(".game-board").classList.add("disabled");
    setTimeout(() => {
       let emptyCells = [];
       let boxes = document.querySelectorAll(".game-board .box");
@@ -186,7 +181,7 @@ const computerMove = () => {
       emptyCells[randomNumber].dataset.turn = turn;
       cells++;
       document.querySelector(".opponent-message").style.opacity = 0;
-      document.querySelector(".game-board").style.pointerEvents = "all";
+      document.querySelector(".game-board").classList.remove("disabled");
       winnerFunction();
       switchMark();
       gameInit();
@@ -218,18 +213,21 @@ const modalSearching = () => {
    `;
    setTimeout(() => {
       modal.classList.remove("active");
-      document.querySelector(".intro-scene").style.display = "none";
-      document.querySelector(".game-scene").style.display = "block";
+      document.querySelector(".intro-scene").classList.remove("active");
       gameInit();
       createCells();
       computer == "x" ? computerMove() : false;
    }, 10000);
+   setTimeout(() => {
+      document.querySelector(".game-scene").classList.add("active");
+   }, 11000);
    document.getElementById("btn1").addEventListener("click", () => {
       modal.classList.remove("active");
    });
 };
 
 const modalWinner = () => {
+   document.querySelector(".game-board").classList.add("disabled");
    let p, h3, img;
    setTimeout(() => {
       modal.classList.add("active");
@@ -266,13 +264,15 @@ const modalWinner = () => {
    document.getElementById("btn1").addEventListener("click", (e) => {
       modal.classList.remove("active");
       setTimeout(() => {
-         document.querySelector(".intro-scene").style.display = "block";
-         document.querySelector(".game-scene").style.display = "none";
+         document.querySelector(".game-scene").classList.remove("active");
+         setTimeout(() => {
+            document.querySelector(".intro-scene").classList.add("active");
+         }, 500);
          resetGame();
          playerFunction();
          turn = "x";
       }, 1500);
-      log("good");
+      document.querySelector(".game-board").classList.remove("disabled");
    });
    document.getElementById("btn2").addEventListener("click", (e) => {
       roundCount++;
@@ -288,6 +288,7 @@ const modalWinner = () => {
       ).src = `assets/icon-${turn}-silver.svg`;
       switchFirstStep();
       gameInit();
+      document.querySelector(".game-board").classList.remove("disabled");
       firstStep == computer ? computerMove() : false;
    });
 };
@@ -323,18 +324,23 @@ const modalReload = () => {
 };
 
 // ! START THE PROGRAM
-document.addEventListener("click", (e) => {
-   if (e.target.classList.contains("button-cpu")) {
-      gameInit();
-      createCells();
-      document.querySelector(".intro-scene").style.display = "none";
-      document.querySelector(".game-scene").style.display = "block";
-      computer == "x" ? computerMove() : false;
-   } else if (e.target.classList.contains("button-player")) {
-      modalSearching();
-   } else if (e.target.classList.contains("reload-game")) {
-      modalReload();
-   }
-});
+setTimeout(() => {
+   document.querySelector(".intro-scene").classList.add("active");
+}, 800);
 playerFunction();
-// ! STOP THE PROGRAM
+document.querySelector(".button-cpu").addEventListener("click", (e) => {
+   gameInit();
+   createCells();
+   document.querySelector(".intro-scene").classList.remove("active");
+   setTimeout(() => {
+      document.querySelector(".game-scene").classList.add("active");
+   }, 500);
+   computer == "x" ? computerMove() : false;
+});
+document
+   .querySelector(".button-player")
+   .addEventListener("click", modalSearching);
+document.querySelector(".reload-game").addEventListener("click", (e) => {
+   e.stopPropagation();
+   modalReload();
+});
