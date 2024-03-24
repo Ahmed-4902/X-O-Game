@@ -190,7 +190,7 @@ const computerMove = () => {
       winnerFunction();
       switchMark();
       gameInit();
-   }, 500);
+   }, 3000);
 };
 // TODO END FUNCTIONS WE CAN EDIT
 
@@ -204,7 +204,6 @@ const dots = document.querySelector(".dots");
 const img = document.querySelector(".modal img");
 
 const modalSearching = () => {
-   modal.style.opacity = 1;
    modal.classList.add("active");
 
    roundTakes.textContent = "searching for opponent";
@@ -215,7 +214,6 @@ const modalSearching = () => {
    btn2.style.display = "none";
 
    setTimeout(() => {
-      modal.style.opacity = 0;
       modal.classList.remove("active");
       modal.classList.remove("searching");
       document.querySelector(".intro-scene").style.display = "none";
@@ -225,7 +223,6 @@ const modalSearching = () => {
       computer == "x" ? computerMove() : false;
    }, 10000);
    btn1.addEventListener("click", () => {
-      modal.style.opacity = 0;
       modal.classList.remove("active");
       roundTakes.classList.remove("searching");
       btn2.style.display = "block";
@@ -233,8 +230,9 @@ const modalSearching = () => {
 };
 
 const modalWinner = () => {
-   modal.style.opacity = 1;
-   modal.classList.add("active");
+   setTimeout(() => {
+      modal.classList.add("active");
+   }, 3000);
 
    roundResult.style.display = "block";
    roundTakes.className = winner;
@@ -256,19 +254,19 @@ const modalWinner = () => {
       roundTakes = "no one takes the round";
    }
    btn1.addEventListener("click", (e) => {
-      resetGame();
-      playerFunction();
-      turn = "x";
-      modal.style.opacity = 0;
       modal.classList.remove("active");
-      document.querySelector(".intro-scene").style.display = "block";
-      document.querySelector(".game-scene").style.display = "none";
+      setTimeout(() => {
+         document.querySelector(".intro-scene").style.display = "block";
+         document.querySelector(".game-scene").style.display = "none";
+         resetGame();
+         playerFunction();
+         turn = "x";
+      }, 1500);
    });
    btn2.addEventListener("click", (e) => {
       roundCount++;
       cells = 0;
       winner = undefined;
-      modal.style.opacity = 0;
       modal.classList.remove("active");
       document.querySelectorAll(".game-board .box").forEach((box) => {
          box.remove();
@@ -284,7 +282,6 @@ const modalWinner = () => {
 };
 
 const modalReload = () => {
-   modal.style.opacity = 1;
    modal.classList.add("active");
 
    roundTakes.classList.add("reload");
@@ -294,7 +291,6 @@ const modalReload = () => {
    btn2.innerHTML = "yes, restart";
 
    btn1.addEventListener("click", (e) => {
-      modal.style.opacity = 0;
       modal.classList.remove("active");
    });
    btn2.addEventListener("click", (e) => {
