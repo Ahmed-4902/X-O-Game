@@ -196,64 +196,74 @@ const computerMove = () => {
 
 //! Start Models
 const modal = document.querySelector(".modal");
-const roundResult = document.querySelector(".modal p");
-const roundTakes = document.querySelector(".modal h3");
-const btn1 = document.querySelector(".modal #btn1");
-const btn2 = document.querySelector(".modal #btn2");
-const dots = document.querySelector(".dots");
-const img = document.querySelector(".modal img");
 
 const modalSearching = () => {
    modal.classList.add("active");
-
-   roundTakes.textContent = "searching for opponent";
-   roundTakes.className = "searching";
-   roundTakes.append(dots);
-
-   btn1.innerHTML = "cancel";
-   btn2.style.display = "none";
-
+   document.querySelector(".modal .content").remove();
+   modal.innerHTML = `
+      <div class="content">
+         <h3 class="searching">
+            SEARCHING FOR OPPONENT
+            <div class="dots">
+               <span></span>
+               <span></span>
+               <span></span>
+            </div>
+         </h3>
+         <div class="btns">
+            <div id="btn1" class="btn">cancel</div>
+            <div id="btn1" class="btn" style="display: none">cancel</div>
+         </div>
+      </div>
+   `;
    setTimeout(() => {
       modal.classList.remove("active");
-      modal.classList.remove("searching");
       document.querySelector(".intro-scene").style.display = "none";
       document.querySelector(".game-scene").style.display = "block";
       gameInit();
       createCells();
       computer == "x" ? computerMove() : false;
    }, 10000);
-   btn1.addEventListener("click", () => {
+   document.getElementById("btn1").addEventListener("click", () => {
       modal.classList.remove("active");
-      roundTakes.classList.remove("searching");
-      btn2.style.display = "block";
    });
 };
 
 const modalWinner = () => {
+   let p, h3, img;
    setTimeout(() => {
       modal.classList.add("active");
-   }, 3000);
-
-   roundResult.style.display = "block";
-   roundTakes.className = winner;
-   img.src = `assets/icon-${winner}.svg`;
-
-   btn1.innerHTML = "quit";
-   btn2.innerHTML = "next round";
+   }, 2000);
+   document.querySelector(".modal .content").remove();
 
    if (player == winner) {
-      roundResult.innerHTML = "you won!";
-      roundTakes.innerHTML = "takes the round";
-      roundTakes.prepend(img);
+      p = "you won!";
+      h3 = "takes the round";
+      img = `src="assets/icon-${winner}.svg"`;
    } else if (computer == winner) {
-      roundResult.innerHTML = "oh no, you lost...";
-      roundTakes.innerHTML = "takes the round";
-      roundTakes.prepend(img);
+      p = "oh no, you lost...";
+      h3 = "takes the round";
+      img = `src="assets/icon-${winner}.svg"`;
    } else {
-      roundResult.innerHTML = "you tied!";
-      roundTakes = "no one takes the round";
+      p = "you tied!";
+      h3 = "no one takes the round";
    }
-   btn1.addEventListener("click", (e) => {
+
+   modal.innerHTML = `
+      <div class="content">
+         <p>${p}</p>
+         <h3 class="${winner}">
+            <img ${img} alt="">
+            ${h3}
+         </h3>
+         <div class="btns">
+            <div id="btn1" class="btn">quit</div>
+            <div id="btn2" class="btn">next round</div>
+         </div>
+      </div>
+   `;
+
+   document.getElementById("btn1").addEventListener("click", (e) => {
       modal.classList.remove("active");
       setTimeout(() => {
          document.querySelector(".intro-scene").style.display = "block";
@@ -262,8 +272,9 @@ const modalWinner = () => {
          playerFunction();
          turn = "x";
       }, 1500);
+      log("good");
    });
-   btn2.addEventListener("click", (e) => {
+   document.getElementById("btn2").addEventListener("click", (e) => {
       roundCount++;
       cells = 0;
       winner = undefined;
@@ -283,21 +294,23 @@ const modalWinner = () => {
 
 const modalReload = () => {
    modal.classList.add("active");
-
-   roundTakes.classList.add("reload");
-   roundTakes.innerHTML = "restart game";
-
-   btn1.innerHTML = "no, cancel";
-   btn2.innerHTML = "yes, restart";
-
-   btn1.addEventListener("click", (e) => {
+   document.querySelector(".modal .content").remove();
+   modal.innerHTML = `
+      <div class="content">
+         <h3 class="reload">
+            Restart Game
+         </h3>
+         <div class="btns">
+            <div id="btn1" class="btn">no, cancel</div>
+            <div id="btn2" class="btn">yes, restart</div>
+         </div>
+      </div>
+   `;
+   document.getElementById("btn1").addEventListener("click", (e) => {
       modal.classList.remove("active");
    });
-   btn2.addEventListener("click", (e) => {
-      modal.style.opacity = 0;
+   document.getElementById("btn2").addEventListener("click", (e) => {
       modal.classList.remove("active");
-      document.querySelector(".overlay").style.display = "none";
-      document.querySelector(".popup-restart").style.display = "none";
       document.querySelector(
          ".turn img"
       ).src = `assets/icon-${turn}-silver.svg`;

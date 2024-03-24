@@ -519,7 +519,6 @@ main .container .game-scene .opponent-message .dots span:nth-child(3) {
   }
 }
 .modal .content p {
-  display: none;
   font-size: 16px;
   font-weight: 700;
   color: #a8bfc9;
