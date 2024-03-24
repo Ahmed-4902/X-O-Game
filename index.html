@@ -10,14 +10,13 @@
          href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
          rel="stylesheet"
       />
-      <!-- <link rel="icon" href="assets/icon/favicon-32x32.png" /> -->
       <link rel="icon" href="assets/icon/favicon-32x32.png" />
       <title>X O Game</title>
    </head>
    <body>
       <main>
-         <div class="overlay"></div>
          <div class="container">
+            <!-- START INTRO SCENE -->
             <div class="intro-scene">
                <div class="logo">
                   <img src="assets/logo.svg" alt="" />
@@ -58,6 +57,7 @@
                <div class="button button-cpu">new game (vs cpu)</div>
                <div class="button button-player">new game (vs player)</div>
             </div>
+            <!-- START GAME SCENE -->
             <div class="game-scene">
                <div class="game-header">
                   <div class="logo">
@@ -87,34 +87,26 @@
                </div>
             </div>
          </div>
-         <div class="popup-search">
-            <div class="search-opponent">
-               <h1>searching for opponent</h1>
-               <div class="dots">
-                  <span></span>
-                  <span></span>
-                  <span></span>
+
+         <div class="modal">
+            <div class="content">
+               <p>YOU WON!</p>
+               <h3 class="">
+                  <img src="" alt="">
+                  TAKES THE ROUND
+                  <div class="dots">
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                  </div>
+               </h3>
+               <div class="btns">
+                  <div id="btn1" class="btn quit">cancel</div>
+                  <div id="btn2" class="btn next-round">next round</div>
                </div>
             </div>
-            <div class="actions">
-               <div class="cancel button">cancel</div>
-            </div>
          </div>
-         <div class="popup-winner">
-            <p>you won!</p>
-            <h1>takes the round</h1>
-            <div class="actions">
-               <div class="quit button">quit</div>
-               <div class="next-round button">next round</div>
-            </div>
-         </div>
-         <div class="popup-restart">
-            <h1>Restart Game</h1>
-            <div class="actions">
-               <div class="cancel button">no, cancel</div>
-               <div class="restart button">yes, restart</div>
-            </div>
-         </div>
+         
       </main>
 
       <script src="main.js"></script>

@@ -90,27 +90,12 @@ const winnerFunction = () => {
    } else if (squ[3] == squ[5] && squ[5] == squ[7] && squ[7] != undefined) {
       finish(3, 5, 7);
    } else if (cells == 9) {
-      // tiesFunction();
       ties++;
       gameInit();
-      popup();
+      modalWinner();
       window.stop();
    }
 };
-
-// const tiesFunction = () => {
-//    ties++;
-//    document.querySelector(".game-score .ties span").innerHTML = ties;
-
-//    document.querySelector(".popup-winner p").innerHTML = "you tied";
-//    document.querySelector(
-//       ".popup-winner h1"
-//    ).innerHTML = `no one takes the round`;
-
-//    document.querySelector(".overlay").style.display = "block";
-//    document.querySelector(".popup-winner").style.display = "flex";
-//    window.stop();
-// };
 
 const finish = (num1, num2, num3) => {
    winner = squ[num1] == "x" ? "x" : "o";
@@ -125,33 +110,9 @@ const finish = (num1, num2, num3) => {
       cpu++;
       document.querySelector(".cpu span").innerHTML = cpu;
    }
-   popup();
+   modalWinner();
    window.stop();
 };
-
-const popup = () => {
-   let p = document.querySelector(".popup-winner p");
-   let h1 = document.querySelector(".popup-winner h1");
-   let actions = document.querySelector(".popup-winner .actions");
-   h1.className = winner;
-   let imgElement = document.createElement("img");
-   imgElement.src = `assets/icon-${winner}.svg`;
-   if (player == winner) {
-      p.innerHTML = "you won!";
-      h1.innerHTML = "takes the round";
-      h1.prepend(imgElement);
-   } else if (computer == winner) {
-      p.innerHTML = "oh no, you lost...";
-      h1.innerHTML = "takes the round";
-      h1.prepend(imgElement);
-   } else {
-      p.innerHTML = "you tied!";
-      h1.innerHTML = "no one takes the round";
-   }
-   document.querySelector(".overlay").style.display = "block";
-   document.querySelector(".popup-winner").style.display = "flex";
-};
-// ? END FUNCTION WE DON'T NEED EDIT
 
 // TODO START FUNCTIONS WE CAN EDIT
 const gameInit = () => {
@@ -192,7 +153,7 @@ const resetGame = () => {
 };
 
 function playerMove() {
-   this.removeAttribute("class")
+   this.removeAttribute("class");
    this.classList.add("box");
    this.classList.add("active");
    this.classList.add(turn);
@@ -229,44 +190,86 @@ const computerMove = () => {
       winnerFunction();
       switchMark();
       gameInit();
-   }, 3000);
+   }, 500);
 };
 // TODO END FUNCTIONS WE CAN EDIT
 
-// ! START THE PROGRAM
-document.addEventListener("click", (e) => {
-   if (e.target.classList.contains("button-cpu")) {
-      gameInit();
-      createCells();
+//! Start Models
+const modal = document.querySelector(".modal");
+const roundResult = document.querySelector(".modal p");
+const roundTakes = document.querySelector(".modal h3");
+const btn1 = document.querySelector(".modal #btn1");
+const btn2 = document.querySelector(".modal #btn2");
+const dots = document.querySelector(".dots");
+const img = document.querySelector(".modal img");
+
+const modalSearching = () => {
+   modal.style.opacity = 1;
+   modal.classList.add("active");
+
+   roundTakes.textContent = "searching for opponent";
+   roundTakes.className = "searching";
+   roundTakes.append(dots);
+
+   btn1.innerHTML = "cancel";
+   btn2.style.display = "none";
+
+   setTimeout(() => {
+      modal.style.opacity = 0;
+      modal.classList.remove("active");
+      modal.classList.remove("searching");
       document.querySelector(".intro-scene").style.display = "none";
       document.querySelector(".game-scene").style.display = "block";
+      gameInit();
+      createCells();
       computer == "x" ? computerMove() : false;
-   } else if (e.target.classList.contains("button-player")) {
-      document.querySelector(".popup-search").style.display = "flex";
-      document.querySelector(".overlay").style.display = "block";
-      setTimeout(() => {
-         document.querySelector(".popup-search").style.display = "none";
-         document.querySelector(".overlay").style.display = "none";
-         document.querySelector(".intro-scene").style.display = "none";
-         document.querySelector(".game-scene").style.display = "block";
-         gameInit();
-         createCells();
-         computer == "x" ? computerMove() : false;
-      }, 10000);
-   } else if (e.target.classList.contains("quit")) {
+   }, 10000);
+   btn1.addEventListener("click", () => {
+      modal.style.opacity = 0;
+      modal.classList.remove("active");
+      roundTakes.classList.remove("searching");
+      btn2.style.display = "block";
+   });
+};
+
+const modalWinner = () => {
+   modal.style.opacity = 1;
+   modal.classList.add("active");
+
+   roundResult.style.display = "block";
+   roundTakes.className = winner;
+   img.src = `assets/icon-${winner}.svg`;
+
+   btn1.innerHTML = "quit";
+   btn2.innerHTML = "next round";
+
+   if (player == winner) {
+      roundResult.innerHTML = "you won!";
+      roundTakes.innerHTML = "takes the round";
+      roundTakes.prepend(img);
+   } else if (computer == winner) {
+      roundResult.innerHTML = "oh no, you lost...";
+      roundTakes.innerHTML = "takes the round";
+      roundTakes.prepend(img);
+   } else {
+      roundResult.innerHTML = "you tied!";
+      roundTakes = "no one takes the round";
+   }
+   btn1.addEventListener("click", (e) => {
       resetGame();
       playerFunction();
       turn = "x";
-      document.querySelector(".popup-winner").style.display = "none";
-      document.querySelector(".overlay").style.display = "none";
+      modal.style.opacity = 0;
+      modal.classList.remove("active");
       document.querySelector(".intro-scene").style.display = "block";
       document.querySelector(".game-scene").style.display = "none";
-   } else if (e.target.classList.contains("next-round")) {
+   });
+   btn2.addEventListener("click", (e) => {
       roundCount++;
       cells = 0;
       winner = undefined;
-      document.querySelector(".popup-winner").style.display = "none";
-      document.querySelector(".overlay").style.display = "none";
+      modal.style.opacity = 0;
+      modal.classList.remove("active");
       document.querySelectorAll(".game-board .box").forEach((box) => {
          box.remove();
       });
@@ -277,14 +280,26 @@ document.addEventListener("click", (e) => {
       switchFirstStep();
       gameInit();
       firstStep == computer ? computerMove() : false;
-   } else if (e.target.classList.contains("reload-game")) {
-      document.querySelector(".overlay").style.display = "block";
-      document.querySelector(".popup-restart").style.display = "flex";
-   } else if (e.target.classList.contains("cancel")) {
-      document.querySelector(".popup-restart").style.display = "none";
-      document.querySelector(".popup-search").style.display = "none";
-      document.querySelector(".overlay").style.display = "none";
-   } else if (e.target.classList.contains("restart")) {
+   });
+};
+
+const modalReload = () => {
+   modal.style.opacity = 1;
+   modal.classList.add("active");
+
+   roundTakes.classList.add("reload");
+   roundTakes.innerHTML = "restart game";
+
+   btn1.innerHTML = "no, cancel";
+   btn2.innerHTML = "yes, restart";
+
+   btn1.addEventListener("click", (e) => {
+      modal.style.opacity = 0;
+      modal.classList.remove("active");
+   });
+   btn2.addEventListener("click", (e) => {
+      modal.style.opacity = 0;
+      modal.classList.remove("active");
       document.querySelector(".overlay").style.display = "none";
       document.querySelector(".popup-restart").style.display = "none";
       document.querySelector(
@@ -295,9 +310,22 @@ document.addEventListener("click", (e) => {
       createCells();
       firstStep == computer ? computerMove() : false;
       turn = "x";
-      log(player, computer, firstStep);
+   });
+};
+
+// ! START THE PROGRAM
+document.addEventListener("click", (e) => {
+   if (e.target.classList.contains("button-cpu")) {
+      gameInit();
+      createCells();
+      document.querySelector(".intro-scene").style.display = "none";
+      document.querySelector(".game-scene").style.display = "block";
+      computer == "x" ? computerMove() : false;
+   } else if (e.target.classList.contains("button-player")) {
+      modalSearching();
+   } else if (e.target.classList.contains("reload-game")) {
+      modalReload();
    }
 });
-
 playerFunction();
 // ! STOP THE PROGRAM
