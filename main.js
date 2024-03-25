@@ -46,7 +46,6 @@ const playerFunction = () => {
       player = "x";
       computer = "o";
    } else if (buttonsPlayers.classList.contains("o")) {
-      log("there is o");
       computer = "x";
       player = "o";
    }
@@ -156,7 +155,6 @@ function playerMove() {
    this.dataset.turn = turn;
    oldChoicesNumbers.push(Number(this.dataset.number));
    cells++;
-   log(`i'am player move\n ${oldChoicesNumbers.sort()}`);
    winnerFunction();
    switchMark();
    gameInit();
@@ -185,7 +183,6 @@ const createAi = () => {
       squ[7] == undefined &&
       squ[9] == undefined
    ) {
-      log("from here new");
       choiceNumber = choices[Math.ceil(Math.random() * choices.length)];
    } else if (
       (squ[3] == squ[2] &&
@@ -201,7 +198,6 @@ const createAi = () => {
          squ[1] == undefined &&
          !oldChoicesNumbers.includes(0))
    ) {
-      log(`this number 0`);
       choiceNumber = 0;
    } else if (
       (squ[1] == squ[3] &&
@@ -313,26 +309,20 @@ const createAi = () => {
    ) {
       choiceNumber = 8;
    } else {
-      log("from here");
       choiceNumber = Math.ceil(Math.random() * 8);
-      log(choiceNumber);
-
       for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
          choiceNumber++;
          if (choiceNumber == 8 && squ[9] != undefined) {
-            log("I'am run")
             for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
                choiceNumber--;
             }
+         } else if (choiceNumber == 8 && squ[9] == undefined) {
+            choiceNumber = 8;
          }
       }
-      log(choiceNumber);
    }
 
    oldChoicesNumbers.push(choiceNumber);
-   log(
-      `I'am AI function\n ${choiceNumber}\n ${oldChoicesNumbers.sort()} \n${squ}`
-   );
    computerMove(choiceNumber);
 };
 
@@ -340,10 +330,6 @@ const computerMove = (number) => {
    document.querySelector(".opponent-message").style.opacity = 1;
    document.querySelector(".game-board").classList.add("disabled");
    setTimeout(() => {
-      log(
-         `I'am computer move function\n ${choiceNumber}\n ${oldChoicesNumbers.sort()}`
-      );
-      log("=======================================");
       let boxes = document.querySelectorAll(".game-board .box");
       boxes[number].classList.remove("empty");
       boxes[number].classList.add("active");
@@ -431,6 +417,7 @@ const modalWinner = () => {
    `;
 
    document.getElementById("btn1").addEventListener("click", (e) => {
+      document.querySelector(".button-cpu").style.pointerEvents = "all";
       modal.classList.remove("active");
       setTimeout(() => {
          document.querySelector(".game-scene").classList.remove("active");
@@ -500,7 +487,7 @@ setTimeout(() => {
 }, 800);
 playerFunction();
 document.querySelector(".button-cpu").addEventListener("click", (e) => {
-   e.target.style.pointerEvents = "none"
+   e.target.style.pointerEvents = "none";
    gameInit();
    createCells();
    document.querySelector(".intro-scene").classList.remove("active");
@@ -516,3 +503,4 @@ document.querySelector(".reload-game").addEventListener("click", (e) => {
    e.stopPropagation();
    modalReload();
 });
+
