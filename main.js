@@ -9,6 +9,8 @@ let squ = [];
 let you = 0,
    ties = 0,
    cpu = 0;
+let oldChoicesNumbers = [];
+let choiceNumber;
 
 // ? START FUNCTION WE DON'T NEED EDIT
 const createCells = () => {
@@ -19,10 +21,8 @@ const createCells = () => {
       cellDiv.setAttribute("id", `cell${i}`);
       document.querySelector(".game-board").appendChild(cellDiv);
       cellDiv.addEventListener("click", playerMove);
+      cellDiv.dataset.number = i - 1;
       cellDiv.onmouseover = () => {
-         cellDiv.classList.add(`preview-${turn}`);
-      };
-      cellDiv.ontouchstart = () => {
          cellDiv.classList.add(`preview-${turn}`);
       };
       cellDiv.onmouseleave = () => {
@@ -137,6 +137,7 @@ const resetGame = () => {
    winner = undefined;
    firstStep = "x";
    squ = [];
+   oldChoicesNumbers = [];
    you = 0;
    ties = 0;
    cpu = 0;
@@ -153,45 +154,199 @@ function playerMove() {
    this.classList.add("active");
    this.classList.add(turn);
    this.dataset.turn = turn;
+   oldChoicesNumbers.push(Number(this.dataset.number));
    cells++;
+   log(`i'am player move\n ${oldChoicesNumbers.sort()}`);
    winnerFunction();
    switchMark();
    gameInit();
-   if (winner == undefined) {
-      computerMove();
+   if (winner == undefined && cells != 9) {
+      createAi();
    }
    // this.classList.remove(`preview${turn}`);
 }
 
-const computerMove = () => {
+const createAi = () => {
+   winnerFunction();
+   let emptyCells = [];
+   let boxes = document.querySelectorAll(".game-board .box");
+   boxes.forEach((box) => {
+      if (box.classList.contains("empty")) {
+         emptyCells.push(box);
+      }
+   });
+   if (
+      (squ[3] == squ[2] &&
+         squ[3] != undefined &&
+         squ[1] == undefined &&
+         !oldChoicesNumbers.includes(0)) ||
+      (squ[4] == squ[7] &&
+         squ[4] != undefined &&
+         squ[1] == undefined &&
+         !oldChoicesNumbers.includes(0)) ||
+      (squ[5] == squ[9] &&
+         squ[5] != undefined &&
+         squ[1] == undefined &&
+         !oldChoicesNumbers.includes(0))
+   ) {
+      log(`this number 0`);
+      choiceNumber = 0;
+   } else if (
+      (squ[1] == squ[3] &&
+         squ[1] != undefined &&
+         squ[2] == undefined &&
+         !oldChoicesNumbers.includes(1)) ||
+      (squ[5] == squ[8] &&
+         squ[5] != undefined &&
+         squ[2] == undefined &&
+         !oldChoicesNumbers.includes(1))
+   ) {
+      choiceNumber = 1;
+   } else if (
+      (squ[1] == squ[2] &&
+         squ[1] != undefined &&
+         squ[3] == undefined &&
+         !oldChoicesNumbers.includes(2)) ||
+      (squ[6] == squ[9] &&
+         squ[6] != undefined &&
+         squ[3] == undefined &&
+         !oldChoicesNumbers.includes(2)) ||
+      (squ[5] == squ[7] &&
+         squ[5] != undefined &&
+         squ[3] == undefined &&
+         !oldChoicesNumbers.includes(2))
+   ) {
+      choiceNumber = 2;
+   } else if (
+      (squ[5] == squ[6] &&
+         squ[5] != undefined &&
+         squ[4] == undefined &&
+         !oldChoicesNumbers.includes(3)) ||
+      (squ[1] == squ[7] &&
+         squ[1] != undefined &&
+         squ[4] == undefined &&
+         !oldChoicesNumbers.includes(3))
+   ) {
+      choiceNumber = 3;
+   } else if (
+      squ[5] == undefined ||
+      (squ[4] == squ[6] &&
+         squ[4] != undefined &&
+         squ[5] == undefined &&
+         !oldChoicesNumbers.includes(4)) ||
+      (squ[2] == squ[8] &&
+         squ[2] != undefined &&
+         squ[5] == undefined &&
+         !oldChoicesNumbers.includes(4)) ||
+      (squ[1] == squ[9] &&
+         squ[1] != undefined &&
+         squ[5] == undefined &&
+         !oldChoicesNumbers.includes(4)) ||
+      (squ[3] == squ[7] &&
+         squ[3] != undefined &&
+         squ[5] == undefined &&
+         !oldChoicesNumbers.includes(4))
+   ) {
+      choiceNumber = 4;
+   } else if (
+      (squ[4] == squ[5] &&
+         squ[4] != undefined &&
+         squ[6] == undefined &&
+         !oldChoicesNumbers.includes(5)) ||
+      (squ[3] == squ[9] &&
+         squ[3] != undefined &&
+         squ[6] == undefined &&
+         !oldChoicesNumbers.includes(5))
+   ) {
+      choiceNumber = 5;
+   } else if (
+      (squ[8] == squ[9] &&
+         squ[8] != undefined &&
+         squ[7] == undefined &&
+         !oldChoicesNumbers.includes(6)) ||
+      (squ[1] == squ[4] &&
+         squ[1] != undefined &&
+         squ[7] == undefined &&
+         !oldChoicesNumbers.includes(6)) ||
+      (squ[3] == squ[5] &&
+         squ[3] != undefined &&
+         squ[7] == undefined &&
+         !oldChoicesNumbers.includes(6))
+   ) {
+      choiceNumber = 6;
+   } else if (
+      (squ[7] == squ[9] &&
+         squ[7] != undefined &&
+         squ[8] == undefined &&
+         !oldChoicesNumbers.includes(7)) ||
+      (squ[2] == squ[5] &&
+         squ[2] != undefined &&
+         squ[8] == undefined &&
+         !oldChoicesNumbers.includes(7))
+   ) {
+      choiceNumber = 7;
+   } else if (
+      (squ[7] == squ[8] &&
+         squ[7] != undefined &&
+         squ[9] == undefined &&
+         !oldChoicesNumbers.includes(8)) ||
+      (squ[3] == squ[6] &&
+         squ[3] != undefined &&
+         squ[9] == undefined &&
+         !oldChoicesNumbers.includes(8)) ||
+      (squ[1] == squ[5] &&
+         squ[1] != undefined &&
+         squ[9] == undefined &&
+         !oldChoicesNumbers.includes(8))
+   ) {
+      choiceNumber = 8;
+   } else {
+      log("from here");
+      choiceNumber = Math.ceil(Math.random() * emptyCells.length);
+      log(choiceNumber);
+
+      for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
+         choiceNumber++;
+         if (choiceNumber == 9) {
+            for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
+               choiceNumber--;
+            }
+         }
+      }
+      log(choiceNumber);
+   }
+
+   oldChoicesNumbers.push(choiceNumber);
+   log(
+      `I'am AI function\n ${choiceNumber}\n ${oldChoicesNumbers.sort()} \n${squ}`
+   );
+   computerMove(choiceNumber);
+};
+
+const computerMove = (number) => {
    document.querySelector(".opponent-message").style.opacity = 1;
    document.querySelector(".game-board").classList.add("disabled");
    setTimeout(() => {
-      let emptyCells = [];
+      log(
+         `I'am computer move function\n ${choiceNumber}\n ${oldChoicesNumbers.sort()}`
+      );
+      log("=======================================");
       let boxes = document.querySelectorAll(".game-board .box");
-      boxes.forEach((box) => {
-         if (box.classList.contains("empty")) {
-            emptyCells.push(box);
-         }
-      });
-      let randomNumber = Math.floor(Math.random() * emptyCells.length);
-      emptyCells[randomNumber].classList.remove("empty");
-      emptyCells[randomNumber].classList.add("active");
-      emptyCells[randomNumber].classList.add(turn);
-      emptyCells[randomNumber].dataset.turn = turn;
+      boxes[number].classList.remove("empty");
+      boxes[number].classList.add("active");
+      boxes[number].classList.add(turn);
+      boxes[number].dataset.turn = turn;
       cells++;
       document.querySelector(".opponent-message").style.opacity = 0;
       document.querySelector(".game-board").classList.remove("disabled");
       winnerFunction();
       switchMark();
       gameInit();
-   }, 3000);
+   }, 500);
 };
-// TODO END FUNCTIONS WE CAN EDIT
 
 //! Start Models
 const modal = document.querySelector(".modal");
-
 const modalSearching = () => {
    modal.classList.add("active");
    document.querySelector(".modal .content").remove();
@@ -216,7 +371,7 @@ const modalSearching = () => {
       document.querySelector(".intro-scene").classList.remove("active");
       gameInit();
       createCells();
-      computer == "x" ? computerMove() : false;
+      computer == "x" ? createAi() : false;
    }, 10000);
    setTimeout(() => {
       document.querySelector(".game-scene").classList.add("active");
@@ -227,6 +382,7 @@ const modalSearching = () => {
 };
 
 const modalWinner = () => {
+   oldChoicesNumbers = [];
    document.querySelector(".game-board").classList.add("disabled");
    let p, h3, img;
    setTimeout(() => {
@@ -278,6 +434,8 @@ const modalWinner = () => {
       roundCount++;
       cells = 0;
       winner = undefined;
+      oldChoicesNumbers = [];
+
       modal.classList.remove("active");
       document.querySelectorAll(".game-board .box").forEach((box) => {
          box.remove();
@@ -289,7 +447,7 @@ const modalWinner = () => {
       switchFirstStep();
       gameInit();
       document.querySelector(".game-board").classList.remove("disabled");
-      firstStep == computer ? computerMove() : false;
+      firstStep == computer ? createAi() : false;
    });
 };
 
@@ -335,7 +493,7 @@ document.querySelector(".button-cpu").addEventListener("click", (e) => {
    setTimeout(() => {
       document.querySelector(".game-scene").classList.add("active");
    }, 500);
-   computer == "x" ? computerMove() : false;
+   computer == "x" ? createAi() : false;
 });
 document
    .querySelector(".button-player")
@@ -344,3 +502,9 @@ document.querySelector(".reload-game").addEventListener("click", (e) => {
    e.stopPropagation();
    modalReload();
 });
+
+let arr = [1];
+
+if (!arr.includes(0)) {
+   log("good");
+}
