@@ -175,7 +175,19 @@ const createAi = () => {
          emptyCells.push(box);
       }
    });
+
+   let choices = [0, 2, 6, 8];
+
    if (
+      squ[5] == computer &&
+      squ[1] == undefined &&
+      squ[3] == undefined &&
+      squ[7] == undefined &&
+      squ[9] == undefined
+   ) {
+      log("from here new");
+      choiceNumber = choices[Math.ceil(Math.random() * choices.length)];
+   } else if (
       (squ[3] == squ[2] &&
          squ[3] != undefined &&
          squ[1] == undefined &&
@@ -302,12 +314,13 @@ const createAi = () => {
       choiceNumber = 8;
    } else {
       log("from here");
-      choiceNumber = Math.ceil(Math.random() * emptyCells.length);
+      choiceNumber = Math.ceil(Math.random() * 8);
       log(choiceNumber);
 
       for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
          choiceNumber++;
-         if (choiceNumber == 9) {
+         if (choiceNumber == 8 && squ[9] != undefined) {
+            log("I'am run")
             for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
                choiceNumber--;
             }
@@ -342,7 +355,7 @@ const computerMove = (number) => {
       winnerFunction();
       switchMark();
       gameInit();
-   }, 500);
+   }, 3000);
 };
 
 //! Start Models
@@ -487,6 +500,7 @@ setTimeout(() => {
 }, 800);
 playerFunction();
 document.querySelector(".button-cpu").addEventListener("click", (e) => {
+   e.target.style.pointerEvents = "none"
    gameInit();
    createCells();
    document.querySelector(".intro-scene").classList.remove("active");
@@ -502,9 +516,3 @@ document.querySelector(".reload-game").addEventListener("click", (e) => {
    e.stopPropagation();
    modalReload();
 });
-
-let arr = [1];
-
-if (!arr.includes(0)) {
-   log("good");
-}
