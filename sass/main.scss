@@ -435,6 +435,9 @@ main {
          &:first-child {
             margin-bottom: 5px;
          }
+         @media (max-width: 400px) {
+            font-size: 12px; 
+         }
       }
       img {
          width: 20px;
@@ -527,6 +530,21 @@ main {
                letter-spacing: 1.5px;
                font-weight: $bolder;
                color: $light-yellow;
+            }
+         }
+
+         &.tied {
+            @media (max-width: 600px) {
+               font-size: 21px;
+               letter-spacing: 1px;
+               font-weight: $bolder;
+               margin-bottom: 10px;
+            }
+            @media (max-width: 320px) {
+               font-size: 16px;
+               letter-spacing: 1px;
+               font-weight: $bolder;
+               margin-bottom: 10px;
             }
          }
 
@@ -632,7 +650,7 @@ dotlottie-player {
    left: 50%;
    transform: translate(-50%, -50%);
    display: none;
-   @media (max-width: 600px) {
+   @media (max-width: 400px) {
       width: 250px;
       height: 250px;
    }

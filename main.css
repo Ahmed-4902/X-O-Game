@@ -514,6 +514,11 @@ main footer p {
 main footer p:first-child {
   margin-bottom: 5px;
 }
+@media (max-width: 400px) {
+  main footer p {
+    font-size: 12px;
+  }
+}
 main footer img {
   width: 20px;
 }
@@ -617,6 +622,22 @@ main footer img.logo {
     letter-spacing: 1.5px;
     font-weight: 700;
     color: #f2b137;
+  }
+}
+@media (max-width: 600px) {
+  .modal .content h3.tied {
+    font-size: 21px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 320px) {
+  .modal .content h3.tied {
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 10px;
   }
 }
 .modal .content h3 .dots {
@@ -723,7 +744,7 @@ dotlottie-player {
   transform: translate(-50%, -50%);
   display: none;
 }
-@media (max-width: 600px) {
+@media (max-width: 400px) {
   dotlottie-player {
     width: 250px;
     height: 250px;

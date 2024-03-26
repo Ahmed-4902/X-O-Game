@@ -17,15 +17,20 @@ const winnerAudio = document.querySelectorAll(".winner");
 const loseAudio = document.querySelector(".lose");
 const winnerAudioArr = Array.from(winnerAudio);
 
-randomNum = Math.floor(Math.random() * winnerAudioArr.length);
-log(randomNum);
 function playerWin() {
-   log(randomNum);
+   randomNum = Math.floor(Math.random() * winnerAudioArr.length);
    winnerAudioArr[randomNum].play();
    you++;
    document.querySelector(".player span").innerHTML = you;
-   animation.style.display = "block";
-   animation.load("https://assets10.lottiefiles.com/packages/lf20_aEFaHc.json");
+   setTimeout(() => {
+      animation.style.display = "block";
+      log("run");
+      animation.load(
+         "https://assets10.lottiefiles.com/packages/lf20_aEFaHc.json"
+      );
+      animation.src =
+         "https://assets10.lottiefiles.com/packages/lf20_aEFaHc.json";
+   }, 300);
 }
 
 function computerWin() {
@@ -34,7 +39,6 @@ function computerWin() {
    document.querySelector(".cpu span").innerHTML = cpu;
 }
 
-getScore();
 // ? START FUNCTION WE DON'T NEED EDIT
 const createCells = () => {
    for (let i = 1; i < 10; i++) {
@@ -67,17 +71,45 @@ function saveScore() {
    localStorage.setItem("you", you);
    localStorage.setItem("ties", ties);
    localStorage.setItem("cpu", cpu);
+   localStorage.setItem("roundCounter", roundCount);
+
+   localStorage.setItem("player", player);
+   localStorage.setItem("computer", computer);
+
+   localStorage.setItem("firstStep", firstStep);
 }
 
 function getScore() {
-   let youGet = localStorage.getItem("you", you);
-   let tiesGet = localStorage.getItem("ties", ties);
-   let cpuGet = localStorage.getItem("cpu", cpu);
+   let youGet = localStorage.getItem("you");
+   let tiesGet = localStorage.getItem("ties");
+   let cpuGet = localStorage.getItem("cpu");
+   let roundCountGet = localStorage.getItem("roundCounter");
+
+   let playerGet = localStorage.getItem("player");
+   let computerGet = localStorage.getItem("computer");
+
+   let firstStepGet = localStorage.getItem("firstStep");
 
    if (youGet != null) {
       you = youGet;
       ties = tiesGet;
       cpu = cpuGet;
+      roundCount = roundCountGet;
+
+      player = playerGet;
+      computer = computerGet;
+
+      firstStep = firstStepGet;
+      turn = firstStep
+
+      gameInit();
+      createCells();
+
+      setTimeout(() => {
+         document.querySelector(".intro-scene").classList.remove("active");
+         document.querySelector(".game-scene").classList.add("active");
+      }, 1000);
+      computer == firstStep ? createAi() : false;
    }
 }
 
@@ -430,14 +462,11 @@ const modalSearching = () => {
 
 const modalWinner = () => {
    animation.style.display = "none";
-   saveScore();
 
    oldChoicesNumbers = [];
    document.querySelector(".game-board").classList.add("disabled");
    let p, h3, img;
-   setTimeout(() => {
-      modal.classList.add("active");
-   }, 2000);
+
    document.querySelector(".modal .content").remove();
 
    if (player == winner) {
@@ -452,11 +481,10 @@ const modalWinner = () => {
       p = "you tied!";
       h3 = "no one takes the round";
    }
-
    modal.innerHTML = `
       <div class="content">
          <p>${p}</p>
-         <h3 class="${winner}">
+         <h3 class="${winner} ">
             <img ${img} alt="">
             ${h3}
          </h3>
@@ -466,6 +494,12 @@ const modalWinner = () => {
          </div>
       </div>
    `;
+   if (winner == undefined) {
+      document.querySelector(".modal h3").className = "tied";
+   }
+   setTimeout(() => {
+      modal.classList.add("active");
+   }, 2000);
 
    document.getElementById("btn1").addEventListener("click", (e) => {
       localStorage.clear();
@@ -499,6 +533,7 @@ const modalWinner = () => {
       switchFirstStep();
       gameInit();
       document.querySelector(".game-board").classList.remove("disabled");
+      saveScore();
       firstStep == computer ? createAi() : false;
    });
 };
@@ -530,11 +565,12 @@ const modalReload = () => {
       gameInit();
       createCells();
       firstStep == computer ? computerMove() : false;
-      turn = "x";
+      // turn = "x";
    });
 };
 
 // ! START THE PROGRAM
+
 setTimeout(() => {
    document.querySelector(".intro-scene").classList.add("active");
 }, 800);
@@ -556,15 +592,7 @@ document.querySelector(".reload-game").addEventListener("click", (e) => {
    e.stopPropagation();
    modalReload();
 });
-
-let celebrate = document.querySelector("lottie-player");
-
-// setTimeout(() => {
-//    celebrate.load(
-//       "https://lottie.host/876df278-d1c2-4d07-926e-5d30fe1aa16d/jA0CkNDb3l.json"
-//    );
-// }, 1000);
-
+getScore();
 // footer
 let copyright = document.querySelector("footer .copyright");
 copyright.innerHTML = new Date(Date.now()).getFullYear();
