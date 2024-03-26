@@ -564,3 +564,7 @@ let celebrate = document.querySelector("lottie-player");
 //       "https://lottie.host/876df278-d1c2-4d07-926e-5d30fe1aa16d/jA0CkNDb3l.json"
 //    );
 // }, 1000);
+
+// footer
+let copyright = document.querySelector("footer .copyright");
+copyright.innerHTML = new Date(Date.now()).getFullYear();

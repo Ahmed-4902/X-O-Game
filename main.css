@@ -492,6 +492,34 @@ main .container .game-scene .opponent-message .dots span:nth-child(2) {
 main .container .game-scene .opponent-message .dots span:nth-child(3) {
   animation: jumpingAnimation 1.2s 0.9s ease-in infinite;
 }
+main footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1f3641;
+  padding: 10px 0px;
+  color: #a8bfc9;
+}
+main footer p {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+  gap: 5px;
+}
+main footer p:first-child {
+  margin-bottom: 5px;
+}
+main footer img {
+  width: 20px;
+}
+main footer img.logo {
+  width: 40px;
+}
 
 .modal {
   display: flex;
