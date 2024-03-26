@@ -17,10 +17,10 @@ const winnerAudio = document.querySelectorAll(".winner");
 const loseAudio = document.querySelector(".lose");
 const winnerAudioArr = Array.from(winnerAudio);
 
-randomNum = Math.floor(Math.random() * winnerAudioArr.length); 
-log(randomNum)
+randomNum = Math.floor(Math.random() * winnerAudioArr.length);
+log(randomNum);
 function playerWin() {
-   log(randomNum)
+   log(randomNum);
    winnerAudioArr[randomNum].play();
    you++;
    document.querySelector(".player span").innerHTML = you;
@@ -129,6 +129,7 @@ const winnerFunction = () => {
       finish(3, 5, 7);
    } else if (cells == 9) {
       ties++;
+      loseAudio.play();
       gameInit();
       modalWinner();
    }
@@ -381,7 +382,7 @@ const computerMove = (number) => {
       boxes[number].classList.add("active");
       boxes[number].classList.add(turn);
       boxes[number].dataset.turn = turn;
-      clickAudio.play()
+      clickAudio.play();
       cells++;
       document.querySelector(".opponent-message").style.opacity = 0;
       document.querySelector(".game-board").classList.remove("disabled");
