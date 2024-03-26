@@ -39,6 +39,18 @@ const switchFirstStep = () => {
    firstStep = firstStep == "x" ? "o" : "x";
    turn = firstStep;
 };
+getScore();
+function saveScore() {
+   localStorage.setItem("you", you);
+   localStorage.setItem("ties", ties);
+   localStorage.setItem("cpu", cpu);
+}
+
+function getScore() {
+   you = localStorage.getItem("you", you);
+   ties = localStorage.getItem("ties", ties);
+   cpu = localStorage.getItem("cpu", cpu);
+}
 
 const playerFunction = () => {
    let buttonsPlayers = document.querySelector(".buttons");
@@ -312,12 +324,18 @@ const createAi = () => {
       choiceNumber = Math.ceil(Math.random() * 8);
       for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
          choiceNumber++;
+         // alert("run here 1");
+         // log(choiceNumber);
          if (choiceNumber == 8 && squ[9] != undefined) {
             for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
                choiceNumber--;
+               // alert("run here 2");
+               // log(choiceNumber);
             }
          } else if (choiceNumber == 8 && squ[9] == undefined) {
             choiceNumber = 8;
+            // alert("run here 3");
+            // log(choiceNumber);
          }
       }
    }
@@ -341,7 +359,7 @@ const computerMove = (number) => {
       winnerFunction();
       switchMark();
       gameInit();
-   }, 3000);
+   }, 500);
 };
 
 //! Start Models
@@ -381,6 +399,9 @@ const modalSearching = () => {
 };
 
 const modalWinner = () => {
+   // save in local
+   saveScore();
+
    oldChoicesNumbers = [];
    document.querySelector(".game-board").classList.add("disabled");
    let p, h3, img;
@@ -417,6 +438,7 @@ const modalWinner = () => {
    `;
 
    document.getElementById("btn1").addEventListener("click", (e) => {
+      localStorage.clear();
       document.querySelector(".button-cpu").style.pointerEvents = "all";
       modal.classList.remove("active");
       setTimeout(() => {
@@ -469,6 +491,7 @@ const modalReload = () => {
       modal.classList.remove("active");
    });
    document.getElementById("btn2").addEventListener("click", (e) => {
+      localStorage.clear();
       modal.classList.remove("active");
       document.querySelector(
          ".turn img"
@@ -503,4 +526,3 @@ document.querySelector(".reload-game").addEventListener("click", (e) => {
    e.stopPropagation();
    modalReload();
 });
-
