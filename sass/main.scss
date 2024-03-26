@@ -595,3 +595,17 @@ main {
       transform: scale(1);
    }
 }
+
+dotlottie-player {
+   width: 450px;
+   height: 450px;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   display: none;
+   @media (max-width: 600px) {
+      width: 250px;
+      height: 250px;
+   }
+}

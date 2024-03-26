@@ -85,6 +85,12 @@
                      <span></span>
                   </div>
                </div>
+               <dotlottie-player
+                  src=""
+                  background="transparent"
+                  speed="1"
+                  autoplay
+               ></dotlottie-player>
             </div>
          </div>
 
@@ -92,7 +98,7 @@
             <div class="content">
                <p>YOU WON!</p>
                <h3 class="">
-                  <img src="" alt="">
+                  <img src="" alt="" />
                   TAKES THE ROUND
                   <div class="dots">
                      <span></span>
@@ -100,15 +106,22 @@
                      <span></span>
                   </div>
                </h3>
-               <div class="btns" >
+               <div class="btns">
                   <div id="btn1" class="btn quit">cancel</div>
                   <div id="btn2" class="btn next-round">next round</div>
                </div>
             </div>
          </div>
-
       </main>
-
+      <audio class="click" src="audio/game-click.wav"></audio>
+      <audio class="winner" src="audio/ethereal-fairy-win-sound.wav"></audio>
+      <audio class="winner" src="audio/fairy-cartoon-success-voice.wav"></audio>
+      <audio class="winner" src="audio/fantasy-game-success-notification.wav"></audio>
+      <audio class="lose" src="audio/retro-arcade-game-over.wav"></audio>
+      <script
+         src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+         type="module"
+      ></script>
       <script src="main.js"></script>
    </body>
 </html>

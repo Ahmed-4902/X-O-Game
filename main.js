@@ -11,7 +11,30 @@ let you = 0,
    cpu = 0;
 let oldChoicesNumbers = [];
 let choiceNumber;
+const animation = document.querySelector("dotlottie-player");
+const clickAudio = document.querySelector(".click");
+const winnerAudio = document.querySelectorAll(".winner");
+const loseAudio = document.querySelector(".lose");
+const winnerAudioArr = Array.from(winnerAudio);
 
+randomNum = Math.floor(Math.random() * winnerAudioArr.length); 
+log(randomNum)
+function playerWin() {
+   log(randomNum)
+   winnerAudioArr[randomNum].play();
+   you++;
+   document.querySelector(".player span").innerHTML = you;
+   animation.style.display = "block";
+   animation.load("https://assets10.lottiefiles.com/packages/lf20_aEFaHc.json");
+}
+
+function computerWin() {
+   loseAudio.play();
+   cpu++;
+   document.querySelector(".cpu span").innerHTML = cpu;
+}
+
+getScore();
 // ? START FUNCTION WE DON'T NEED EDIT
 const createCells = () => {
    for (let i = 1; i < 10; i++) {
@@ -39,7 +62,7 @@ const switchFirstStep = () => {
    firstStep = firstStep == "x" ? "o" : "x";
    turn = firstStep;
 };
-getScore();
+
 function saveScore() {
    localStorage.setItem("you", you);
    localStorage.setItem("ties", ties);
@@ -47,9 +70,15 @@ function saveScore() {
 }
 
 function getScore() {
-   you = localStorage.getItem("you", you);
-   ties = localStorage.getItem("ties", ties);
-   cpu = localStorage.getItem("cpu", cpu);
+   let youGet = localStorage.getItem("you", you);
+   let tiesGet = localStorage.getItem("ties", ties);
+   let cpuGet = localStorage.getItem("cpu", cpu);
+
+   if (youGet != null) {
+      you = youGet;
+      ties = tiesGet;
+      cpu = cpuGet;
+   }
 }
 
 const playerFunction = () => {
@@ -112,11 +141,9 @@ const finish = (num1, num2, num3) => {
    document.getElementById(`cell${num3}`).classList.add("winner");
 
    if (player == winner) {
-      you++;
-      document.querySelector(".player span").innerHTML = you;
+      playerWin();
    } else {
-      cpu++;
-      document.querySelector(".cpu span").innerHTML = cpu;
+      computerWin();
    }
    modalWinner();
 };
@@ -164,6 +191,7 @@ function playerMove() {
    this.classList.add("box");
    this.classList.add("active");
    this.classList.add(turn);
+   clickAudio.play();
    this.dataset.turn = turn;
    oldChoicesNumbers.push(Number(this.dataset.number));
    cells++;
@@ -353,13 +381,14 @@ const computerMove = (number) => {
       boxes[number].classList.add("active");
       boxes[number].classList.add(turn);
       boxes[number].dataset.turn = turn;
+      clickAudio.play()
       cells++;
       document.querySelector(".opponent-message").style.opacity = 0;
       document.querySelector(".game-board").classList.remove("disabled");
       winnerFunction();
       switchMark();
       gameInit();
-   }, 500);
+   }, 3000);
 };
 
 //! Start Models
@@ -399,7 +428,7 @@ const modalSearching = () => {
 };
 
 const modalWinner = () => {
-   // save in local
+   animation.style.display = "none";
    saveScore();
 
    oldChoicesNumbers = [];
@@ -526,3 +555,11 @@ document.querySelector(".reload-game").addEventListener("click", (e) => {
    e.stopPropagation();
    modalReload();
 });
+
+let celebrate = document.querySelector("lottie-player");
+
+// setTimeout(() => {
+//    celebrate.load(
+//       "https://lottie.host/876df278-d1c2-4d07-926e-5d30fe1aa16d/jA0CkNDb3l.json"
+//    );
+// }, 1000);
