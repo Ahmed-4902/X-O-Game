@@ -100,7 +100,7 @@ function getScore() {
       computer = computerGet;
 
       firstStep = firstStepGet;
-      turn = firstStep
+      turn = firstStep;
 
       gameInit();
       createCells();
@@ -109,7 +109,7 @@ function getScore() {
          document.querySelector(".intro-scene").classList.remove("active");
          document.querySelector(".game-scene").classList.add("active");
       }, 1000);
-      computer == firstStep ? createAi() : false;
+      computer == firstStep ? computerMove() : false;
    }
 }
 
@@ -232,13 +232,12 @@ function playerMove() {
    switchMark();
    gameInit();
    if (winner == undefined && cells != 9) {
-      createAi();
+      computerMove();
    }
-   // this.classList.remove(`preview${turn}`);
 }
 
 const createAi = () => {
-   winnerFunction();
+   log(squ);
    let emptyCells = [];
    let boxes = document.querySelectorAll(".game-board .box");
    boxes.forEach((box) => {
@@ -383,37 +382,40 @@ const createAi = () => {
       choiceNumber = 8;
    } else {
       choiceNumber = Math.ceil(Math.random() * 8);
-      for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
-         choiceNumber++;
-         // alert("run here 1");
-         // log(choiceNumber);
-         if (choiceNumber == 8 && squ[9] != undefined) {
-            for (let i = 0; oldChoicesNumbers.includes(choiceNumber); i++) {
-               choiceNumber--;
-               // alert("run here 2");
-               // log(choiceNumber);
+      log(`${choiceNumber} from random`);
+      for (
+         let i = choiceNumber;
+         oldChoicesNumbers.includes(choiceNumber);
+         i++
+      ) {
+         choiceNumber = i;
+         log(`${choiceNumber} from 1++`);
+         if (choiceNumber >= 8) {
+            for (
+               let i = choiceNumber;
+               oldChoicesNumbers.includes(choiceNumber);
+               i--
+            ) {
+               choiceNumber = i;
+               log(`${choiceNumber} from 2--`);
             }
-         } else if (choiceNumber == 8 && squ[9] == undefined) {
-            choiceNumber = 8;
-            // alert("run here 3");
-            // log(choiceNumber);
          }
       }
    }
 
    oldChoicesNumbers.push(choiceNumber);
-   computerMove(choiceNumber);
 };
 
-const computerMove = (number) => {
+const computerMove = () => {
    document.querySelector(".opponent-message").style.opacity = 1;
    document.querySelector(".game-board").classList.add("disabled");
    setTimeout(() => {
+      createAi();
       let boxes = document.querySelectorAll(".game-board .box");
-      boxes[number].classList.remove("empty");
-      boxes[number].classList.add("active");
-      boxes[number].classList.add(turn);
-      boxes[number].dataset.turn = turn;
+      boxes[choiceNumber].classList.remove("empty");
+      boxes[choiceNumber].classList.add("active");
+      boxes[choiceNumber].classList.add(turn);
+      boxes[choiceNumber].dataset.turn = turn;
       clickAudio.play();
       cells++;
       document.querySelector(".opponent-message").style.opacity = 0;
@@ -421,7 +423,7 @@ const computerMove = (number) => {
       winnerFunction();
       switchMark();
       gameInit();
-   }, 3000);
+   }, 1500);
 };
 
 //! Start Models
@@ -450,7 +452,7 @@ const modalSearching = () => {
       document.querySelector(".intro-scene").classList.remove("active");
       gameInit();
       createCells();
-      computer == "x" ? createAi() : false;
+      computer == "x" ? computerMove() : false;
    }, 10000);
    setTimeout(() => {
       document.querySelector(".game-scene").classList.add("active");
@@ -461,8 +463,6 @@ const modalSearching = () => {
 };
 
 const modalWinner = () => {
-   animation.style.display = "none";
-
    oldChoicesNumbers = [];
    document.querySelector(".game-board").classList.add("disabled");
    let p, h3, img;
@@ -502,6 +502,7 @@ const modalWinner = () => {
    }, 2000);
 
    document.getElementById("btn1").addEventListener("click", (e) => {
+      animation.style.display = "none";
       localStorage.clear();
       document.querySelector(".button-cpu").style.pointerEvents = "all";
       modal.classList.remove("active");
@@ -517,10 +518,12 @@ const modalWinner = () => {
       document.querySelector(".game-board").classList.remove("disabled");
    });
    document.getElementById("btn2").addEventListener("click", (e) => {
+      animation.style.display = "none";
       roundCount++;
       cells = 0;
       winner = undefined;
       oldChoicesNumbers = [];
+      squ = [];
 
       modal.classList.remove("active");
       document.querySelectorAll(".game-board .box").forEach((box) => {
@@ -534,7 +537,7 @@ const modalWinner = () => {
       gameInit();
       document.querySelector(".game-board").classList.remove("disabled");
       saveScore();
-      firstStep == computer ? createAi() : false;
+      firstStep == computer ? computerMove() : false;
    });
 };
 
@@ -583,7 +586,7 @@ document.querySelector(".button-cpu").addEventListener("click", (e) => {
    setTimeout(() => {
       document.querySelector(".game-scene").classList.add("active");
    }, 500);
-   computer == "x" ? createAi() : false;
+   computer == "x" ? computerMove() : false;
 });
 document
    .querySelector(".button-player")
@@ -593,6 +596,7 @@ document.querySelector(".reload-game").addEventListener("click", (e) => {
    modalReload();
 });
 getScore();
+
 // footer
 let copyright = document.querySelector("footer .copyright");
 copyright.innerHTML = new Date(Date.now()).getFullYear();
