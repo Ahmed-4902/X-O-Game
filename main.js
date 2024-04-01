@@ -423,7 +423,7 @@ const computerMove = () => {
       winnerFunction();
       switchMark();
       gameInit();
-   }, 1500);
+   }, 2500);
 };
 
 //! Start Models
