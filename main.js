@@ -541,6 +541,15 @@ const modalWinner = () => {
    });
 };
 
+document.addEventListener("click", (e) => {
+   if (
+      e.target == document.querySelector(".modal") &&
+      e.target != document.querySelector(".modal .content")
+   ) {
+      modal.classList.remove("active");
+   }
+});
+
 const modalReload = () => {
    modal.classList.add("active");
    document.querySelector(".modal .content").remove();
